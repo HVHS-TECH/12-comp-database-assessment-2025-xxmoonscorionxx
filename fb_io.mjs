@@ -1,19 +1,33 @@
 var fb_gamedb;
 var userUID;
 var userName;
-
+const COL_C = 'white';	    // These two const are part of the coloured 	
+const COL_B = '#CD7F32';	//  console.log for functions scheme
 
 /**************************************************************/
 // Importing all external constants & functions here
 /**************************************************************/
-import { initializeApp, getDatabase, getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, ref, set, get, update }
+//import { initializeApp, getDatabase, getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, ref, set, get, update }
+//    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+
+    import { initializeApp }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut  }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+    import { getDatabase, ref, set, get, update }
+    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+
 /**************************************************************/
 // Exporting functions to be used in main.mjs
 /**************************************************************/
 export {
- fb_initialise
+ fb_initialise, fb_authenticate, fb_start
 };
+function fb_start() {
+    fb_initialise();
+    fb_authenticate();
+}
 function fb_initialise() {
     console.log('%c fb_initialise(): ',
         'color: ' + COL_C + '; background-color: ' + COL_B + ';');
@@ -31,4 +45,29 @@ function fb_initialise() {
     const FB_GAMEAPP = initializeApp(firebaseConfig);
     fb_gamedb = getDatabase(FB_GAMEAPP);
     console.info(fb_gamedb);
+}
+function fb_authenticate() {
+    console.log("working function")
+    const AUTH = getAuth();
+    const PROVIDER = new GoogleAuthProvider();
+
+    // The following makes Google ask the user to select the account
+    PROVIDER.setCustomParameters({
+        prompt: 'select_account'
+    });
+
+    // Create a popup window to sign in
+    signInWithPopup(AUTH, PROVIDER).then((result) => {
+        //document.getElementById("p_fbAuthenticate").innerHTML = "Authenticated";
+        
+        console.log(result.user.uid);
+        console.log(result.user.email);
+        console.log(result.user.displayName);
+        userUID = result.user.uid;
+      //  const userEmail = result.user.email;
+         userName = result.user.displayName;
+    }).catch((error) => {
+        console.log("error authenticating: " + error);
+       // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
+    });
 }
