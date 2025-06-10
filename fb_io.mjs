@@ -22,7 +22,7 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 // Exporting functions to be used in main.mjs
 /**************************************************************/
 export {
- fb_initialise, fb_authenticate, fb_start
+ fb_initialise, fb_authenticate, fb_start, test
 };
 function fb_start() {
     fb_initialise();
@@ -69,5 +69,21 @@ function fb_authenticate() {
     }).catch((error) => {
         console.log("error authenticating: " + error);
        // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
+    });
+}
+function test() {
+    var score;
+    score = sessionStorage.getItem("score");
+
+    const dbReference= ref(fb_gamedb, ('Games/egg/Users/'+ userName));
+
+    set(dbReference, { Score: 3, UID: userUID}).then(() => {
+        console.log("write successful")
+        //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
+
+    }).catch((error) => {
+        console.log("error:  " + error)
+        //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
+
     });
 }

@@ -126,6 +126,8 @@ function playState() {
 	else if (gameState == "lose") {
 		background('#0e001b');
 		loseScreenText();
+		sessionStorage.setItem("score", score);
+
 
 
 	}
@@ -474,7 +476,6 @@ function gameStateChanger2() {
 		gameState = "play";
 	}
 }
-
 //******************* */
 // gameStateChanger3()
 // Called by gameState()
@@ -490,6 +491,16 @@ function gameStateChanger3() {
 			coinGroup.remove();
 		}
 	}
+}
+
+function submissionPage() {
+var button = document.createElement('button');
+button.innerHTML = 'Click Me';
+button.id = 'myButton';
+button.addEventListener('click', function() {
+  alert('Button Clicked!');
+}); //help gotten from online
+
 }
 /**************************************************** *
 *******************************************************/
