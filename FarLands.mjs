@@ -6,7 +6,9 @@
 /*******************************************************/
 /*******************************************************/
 
-
+import {
+	fb_write
+} from './fb_io.mjs';
 /*******************************************************/
 //var container
 /*******************************************************/
@@ -74,6 +76,7 @@ function setup() {
 // draw()
 /*******************************************************/
 function draw() {
+	
 	playState();
 }
 /*******************************************************/
@@ -126,7 +129,9 @@ function playState() {
 	else if (gameState == "lose") {
 		background('#0e001b');
 		loseScreenText();
-		sessionStorage.setItem("score", score);
+		fb_write()
+		
+		
 
 
 
@@ -337,6 +342,7 @@ function spaceshipCollectCoin(_coin, _spaceship) {
 	_coin.remove();
 	console.log("coin collected");
 	score++
+	sessionStorage.setItem("score", score);
 }
 /*****************************************************/
 // spawnCoin()
@@ -502,6 +508,7 @@ button.addEventListener('click', function() {
 }); //help gotten from online
 
 }
+
 /**************************************************** *
 *******************************************************/
 //  END OF APP
