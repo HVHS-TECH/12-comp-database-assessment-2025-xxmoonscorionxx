@@ -37,6 +37,9 @@ let particlesSpawningAmount;
 let particlesSpawningPart;
 let playtext1;
 let playtext2;
+let UID;
+let userName;
+
 
 /*******************************************************/
 //const container
@@ -54,6 +57,11 @@ function setup() {
 	asteroidGroup = new Group();
 	coinGroup = new Group();
 	if (gameState == "intro") {
+		UID = sessionStorage.getItem("UID");
+		userName = sessionStorage.getItem("userName");
+		if (UID == null) {
+			window.location.replace("registration.html");
+		}
 		background('#0e001b');
 		startImage = new Sprite(900, 500, 200, 400, 's');
 		startImage.image = startText;

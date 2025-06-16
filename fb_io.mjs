@@ -66,6 +66,9 @@ function fb_authenticate() {
         userUID = result.user.uid;
       //  const userEmail = result.user.email;
          userName = result.user.displayName;
+
+        sessionStorage.setItem("UID", userUID);
+        sessionStorage.setItem("userName", userName);
     }).catch((error) => {
         console.log("error authenticating: " + error);
        // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
@@ -74,6 +77,7 @@ function fb_authenticate() {
 function fb_write() {
     var score;
     score = sessionStorage.getItem("score");
+    userName = sessionStorage.getItem("UID");
 
     const dbReference= ref(fb_gamedb, ('Games/FarLands/Users/'+ userUID));
 
