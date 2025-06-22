@@ -60,7 +60,7 @@ function setup() {
 		UID = sessionStorage.getItem("UID");
 		userName = sessionStorage.getItem("userName");
 		if (UID == null) {
-			window.location.replace("registration.html");
+			window.location.replace("registration/registration.html");
 		}
 		background('#0e001b');
 		startImage = new Sprite(900, 500, 200, 400, 's');

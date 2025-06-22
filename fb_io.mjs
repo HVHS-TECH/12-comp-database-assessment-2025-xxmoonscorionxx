@@ -77,7 +77,7 @@ function fb_authenticate() {
 function fb_write() {
     var score;
     score = sessionStorage.getItem("score");
-    userName = sessionStorage.getItem("UID");
+    userUID = sessionStorage.getItem("UID");
 
     const dbReference= ref(fb_gamedb, ('Games/FarLands/Users/'+ userUID));
 
@@ -90,4 +90,14 @@ function fb_write() {
         //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
 
     });
+
+
+
+
+
+
+
+
+
+
 }
