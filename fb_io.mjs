@@ -1,6 +1,7 @@
 var fb_gamedb;
 var userUID;
 var userName;
+
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
 
@@ -77,7 +78,13 @@ function fb_authenticate() {
 function fb_write() {
     var score;
     score = sessionStorage.getItem("score");
+    userName = sessionStorage.getItem("userName");
     userUID = sessionStorage.getItem("UID");
+    console.log(score);
+    console.log(userName);
+    console.log(fb_gamedb);
+    console.log(userUID);
+
 
     const dbReference= ref(fb_gamedb, ('Games/FarLands/Users/'+ userUID));
 

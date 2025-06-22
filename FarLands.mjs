@@ -39,7 +39,7 @@ let playtext1;
 let playtext2;
 let UID;
 let userName;
-
+var once = 0;
 
 /*******************************************************/
 //const container
@@ -137,7 +137,11 @@ function playState() {
 	else if (gameState == "lose") {
 		background('#0e001b');
 		loseScreenText();
-		fb_write()
+		if (once == 0 ) {
+			fb_write()
+			once = 1;
+		}
+		
 		
 		
 
