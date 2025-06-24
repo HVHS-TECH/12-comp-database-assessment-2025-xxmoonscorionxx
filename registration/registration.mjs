@@ -15,5 +15,5 @@ function saveSubmit() {
     }
     sessionStorage.setItem("Name", name);
     sessionStorage.setItem("dateOfBirth", dateOfBirth);
-    
+      
 }
