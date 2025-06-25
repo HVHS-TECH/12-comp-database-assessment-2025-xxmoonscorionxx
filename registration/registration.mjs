@@ -1,9 +1,5 @@
 console.log("%cregistration.mjs running", "color: blue;")
 var UID1;
-
-function initiate(){
-    UID1 = sessionStorage.getItem("UID");
-}
 function saveSubmit() {
     UID1 = sessionStorage.getItem("UID");
     console.log("%cIt works", "color: blue;");

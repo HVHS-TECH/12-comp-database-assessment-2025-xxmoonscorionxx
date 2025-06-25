@@ -1,5 +1,5 @@
 var fb_gamedb;
-
+var userUID;
 
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
@@ -47,7 +47,7 @@ function fb_initialise() {
     console.info(fb_gamedb);
 }
 function fb_authenticate() {
-    var userUID;
+    
     var userName;
     sessionStorage.setItem("UID", userUID);
     sessionStorage.setItem("userName", userName);
