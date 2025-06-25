@@ -1,6 +1,6 @@
 var fb_gamedb;
 var userUID;
-
+var leaderboard1;
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
 
@@ -90,7 +90,7 @@ function fb_write() {
 
     const dbReference= ref(fb_gamedb, ('Games/FarLands/Users/'+ userUID));
 
-    set(dbReference, { Score: score, Name: userName}).then(() => {
+    set(dbReference, { Score: Number(score), Name: userName}).then(() => {
         console.log("write successful");
         //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
 
@@ -104,14 +104,21 @@ function fb_read_sorted() {
     var sortKey = "Score";
 
     const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToFirst(3));
-    get(dbReference).then((snapshot) => {   
-        var fb_data = snapshot.val();
-        if (fb_data != null) {
-            console.log(fb_data)
+    get(dbReference).then((Snapshot) => {   
+        Snapshot.forEach(function(userScoreSnapshot) {
+            var fb_data = userScoreSnapshot.val();
+            if (fb_data != null) {
+            console.log(fb_data.Score)
+            leaderboard1 = fb_data
+            console.log(leaderboard1)
+            sessionStorage.setItem("data1", leaderboard1);
+            
         } else {
             console.log("something went wrong")
-
         }
+        });
+        
+        
 
     }).catch((error) => {
         console.log(error)
@@ -119,3 +126,4 @@ function fb_read_sorted() {
 
 
 }
+
