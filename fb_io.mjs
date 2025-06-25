@@ -9,12 +9,11 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 /**************************************************************/
 //import { initializeApp, getDatabase, getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, ref, set, get, update }
 //    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-
     import { initializeApp }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut  }
+    import { getAuth, GoogleAuthProvider, signInWithPopup}
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import { getDatabase, ref, set, get, update }
+    import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 
@@ -22,7 +21,7 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 // Exporting functions to be used in main.mjs
 /**************************************************************/
 export {
- fb_initialise, fb_authenticate, fb_start, fb_write
+ fb_initialise, fb_authenticate, fb_start, fb_write, fb_read_sorted
 };
 function fb_start() {
     fb_initialise();
@@ -100,14 +99,23 @@ function fb_write() {
         //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
 
     });
+}
+function fb_read_sorted() {
+    var sortKey = "Score";
 
+    const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToFirst(3));
+    get(dbReference).then((snapshot) => {   
+        var fb_data = snapshot.val();
+        if (fb_data != null) {
+            console.log(fb_data)
+        } else {
+            console.log("something went wrong")
 
+        }
 
-
-
-
-
-
+    }).catch((error) => {
+        console.log(error)
+    });
 
 
 }
