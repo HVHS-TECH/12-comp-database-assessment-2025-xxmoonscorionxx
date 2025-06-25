@@ -141,7 +141,7 @@ function playState() {
 			fb_write()
 			once = 1;
 		}
-		
+		home();
 		
 		
 
@@ -453,6 +453,7 @@ function loseScreenText() {
 	text("SCORE: " + score, windowWidth / 2 - 300, 440);
 	textSize(10);
 	text("refresh the page to try again", windowWidth / 2 - 250, 800);
+	text("or press ..r.. to return", windowWidth / 2 - 250, 810 );
 }
 
 //******************* */
@@ -520,7 +521,11 @@ button.addEventListener('click', function() {
 }); //help gotten from online
 
 }
-
+function home() {
+	if (kb.pressing('r')) {
+		window.location.replace("index.html");
+	}
+}
 /**************************************************** *
 *******************************************************/
 //  END OF APP
