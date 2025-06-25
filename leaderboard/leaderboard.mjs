@@ -12,7 +12,7 @@ import { initializeApp }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst }
+import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst, limitToLast }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 //import { fb_read_sorted, fb_initialise }
 //    from "../fb_io.mjs";
@@ -38,23 +38,29 @@ function fb_initialise() {
 
 function fb_read_sorted() {
     var sortKey = "Score";
-    const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToFirst(5));
-    get(dbReference).then((Snapshot) => {
-        Snapshot.forEach(function (userScoreSnapshot) {
+    const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToLast(5));
+    get(dbReference).then((snapshot) => {
+        let scores = []
+        snapshot.forEach(function (userScoreSnapshot) {
+            console.log(userScoreSnapshot.val())
             var fb_data = userScoreSnapshot.val();
             if (fb_data != null) {
-                console.log(fb_data.Score)
-                storage = fb_data.Score;
-//                leaderboard1 = fb_data
- //               console.log(leaderboard1)
-//                sessionStorage.setItem("data1", leaderboard1);
-            document.getElementById("#1").innerHTML= fb_data.Score()
-
+                //  console.log(fb_data);
+                scores.push(fb_data)
             } else {
                 console.log("something went wrong")
             }
-        });
 
+            console.log(scores)
+            scores.sort((a, b) => { return b.Score - a.Score }) //Help received for this line
+            console.log(scores)
+
+        });
+        document.getElementById("#1").innerHTML = "#1      " + scores[0].Name + "      Score:" + scores[0].Score;
+        document.getElementById("#2").innerHTML = "#2      " + scores[1].Name + "      Score:" + scores[1].Score;
+        document.getElementById("#3").innerHTML = "#3      " + scores[2].Name + "      Score:" + scores[2].Score;
+        document.getElementById("#4").innerHTML = "#4      " + scores[3].Name + "      Score:" + scores[3].Score;
+        document.getElementById("#5").innerHTML = "#5      " + scores[4].Name + "      Score:" + scores[4].Score;
     }).catch((error) => {
         console.log(error)
     });
@@ -69,5 +75,5 @@ function sortedRead() {
     fb_read_sorted();
     const leaderboard = sessionStorage.getItem("data1")
     console.log(leaderboard)
-    ;
+        ;
 }

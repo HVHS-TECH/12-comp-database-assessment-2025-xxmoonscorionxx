@@ -21,12 +21,13 @@ body {
   }
   li {
     padding: 10px 20px;
+    margin-right: 900px;
     font-size: 16px;
     cursor: pointer;
     border: none;
     border-radius: 5px;
     color: #000000;
     transition: background-color 0.3s;
-    width: 220px; /* Set a fixed width */
+    width: 400px; /* Set a fixed width */
     text-align: center;
   }
