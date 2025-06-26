@@ -1,6 +1,7 @@
 var fb_gamedb;
 var userUID;
 var leaderboard1;
+var newScoreValid;
 const COL_C = 'white';	    // These two const are part of the coloured 	
 const COL_B = '#CD7F32';	//  console.log for functions scheme
 
@@ -9,11 +10,11 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 /**************************************************************/
 //import { initializeApp, getDatabase, getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, ref, set, get, update }
 //    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { initializeApp }
+import { initializeApp }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup}
+import { getAuth, GoogleAuthProvider, signInWithPopup }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-    import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst }
+import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 
 
@@ -21,7 +22,7 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 // Exporting functions to be used in main.mjs
 /**************************************************************/
 export {
- fb_initialise, fb_authenticate, fb_start, fb_write, fb_read_sorted
+    fb_initialise, fb_authenticate, fb_start, fb_write, fb_read_sorted
 };
 function fb_start() {
     fb_initialise();
@@ -46,7 +47,7 @@ function fb_initialise() {
     console.info(fb_gamedb);
 }
 function fb_authenticate() {
-    
+
     var userName;
     sessionStorage.setItem("UID", userUID);
     sessionStorage.setItem("userName", userName);
@@ -62,19 +63,20 @@ function fb_authenticate() {
     // Create a popup window to sign in
     signInWithPopup(AUTH, PROVIDER).then((result) => {
         //document.getElementById("p_fbAuthenticate").innerHTML = "Authenticated";
-        
+
         console.log(result.user.uid);
         console.log(result.user.email);
         console.log(result.user.displayName);
         userUID = result.user.uid;
-      //  const userEmail = result.user.email;
-         userName = result.user.displayName;
+        //  const userEmail = result.user.email;
+        userName = result.user.displayName;
 
         sessionStorage.setItem("UID", userUID);
         sessionStorage.setItem("userName", userName);
+        console.log(AUTH);
     }).catch((error) => {
         console.log("error authenticating: " + error);
-       // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
+        // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
     });
 }
 function fb_write() {
@@ -86,11 +88,19 @@ function fb_write() {
     console.log(userName);
     console.log(fb_gamedb);
     console.log(userUID);
+    const auth = getAuth();
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            console.log("Signed in as:", user.uid);
+        } else {
+            console.log("Not signed in");
+        }
+    });
 
 
-    const dbReference= ref(fb_gamedb, ('Games/FarLands/Users/'+ userUID));
+    const dbReference = ref(fb_gamedb, ('Games/FarLands/Users/' + userUID));
 
-    set(dbReference, { Score: Number(score), Name: userName}).then(() => {
+    set(dbReference, { Score: Number(score), Name: userName }).then(() => {
         console.log("write successful");
         //document.getElementById("p_fbWriteRec").innerHTML = "Successful";
 
@@ -104,21 +114,21 @@ function fb_read_sorted() {
     var sortKey = "Score";
 
     const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToFirst(3));
-    get(dbReference).then((Snapshot) => {   
-        Snapshot.forEach(function(userScoreSnapshot) {
+    get(dbReference).then((Snapshot) => {
+        Snapshot.forEach(function (userScoreSnapshot) {
             var fb_data = userScoreSnapshot.val();
             if (fb_data != null) {
-            console.log(fb_data.Score)
-            leaderboard1 = fb_data
-            console.log(leaderboard1)
-            sessionStorage.setItem("data1", leaderboard1);
-            
-        } else {
-            console.log("something went wrong")
-        }
+                console.log(fb_data.Score)
+                leaderboard1 = fb_data
+                console.log(leaderboard1)
+                sessionStorage.setItem("data1", leaderboard1);
+
+            } else {
+                console.log("something went wrong")
+            }
         });
-        
-        
+
+
 
     }).catch((error) => {
         console.log(error)

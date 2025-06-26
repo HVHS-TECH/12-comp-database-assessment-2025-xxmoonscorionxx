@@ -8,11 +8,11 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 
 //import { initializeApp, getDatabase, getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut, ref, set, get, update }
 //    from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { initializeApp }
+    import { initializeApp }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup }
+    import { getAuth, GoogleAuthProvider, signInWithPopup}
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst, limitToLast }
+    import { getDatabase, ref, set, get, update, query, orderByChild, limitToLast }
     from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
 //import { fb_read_sorted, fb_initialise }
 //    from "../fb_io.mjs";
@@ -37,6 +37,14 @@ function fb_initialise() {
 }
 
 function fb_read_sorted() {
+    const auth = getAuth();
+auth.onAuthStateChanged(user => {
+  if (user) {
+    console.log("Signed in as:", user.uid);
+  } else {
+    console.log("Not signed in");
+  }
+});
     var sortKey = "Score";
     const dbReference = query(ref(fb_gamedb, "Games/FarLands/Users"), orderByChild(sortKey), limitToLast(5));
     get(dbReference).then((snapshot) => {
@@ -52,7 +60,7 @@ function fb_read_sorted() {
             }
 
             console.log(scores)
-            scores.sort((a, b) => { return b.Score - a.Score }) //Help received for this line
+            scores.sort((a, b) => { return b.Score - a.Score }) //Help received for this line https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
             console.log(scores)
 
         });
