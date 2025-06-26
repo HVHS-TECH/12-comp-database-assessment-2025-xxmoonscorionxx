@@ -5,6 +5,7 @@ var UID1;
 function saveInfo() {
     name = document.getElementById("name").value;
     age = document.getElementById("age").value;
+    age = Number(age);
     sessionStorage.setItem("name", name);
     sessionStorage.setItem("age", age);
     console.log("%cIt works", "color: blue;")
@@ -15,20 +16,15 @@ function redirectHub() {
 
 
 
-    if (UID1 !== 'undefined') {
-        if (UID1 !== null) {
-
+    if (UID1 !== 'undefined' && UID1 !== null ) {
+        if(age>=5 && age <=100) {
             console.log("set")
             setTimeout(() => { //https://developer.mozilla.org/en-US/docs/Web/API/Window/setTimeout
-                window.location.replace("../index.html");
-            }, 1000);
-
-
+            window.location.replace("../index.html");
+        }, 1000);
         } else {
-            document.getElementById("statusMessage2").innerHTML = "You Are Not Logged In With Google!";
+            alert("Please Enter A Valid Age")
         }
-
-
     } else {
         document.getElementById("statusMessage2").innerHTML = "You Are Not Logged In With Google!";
 
