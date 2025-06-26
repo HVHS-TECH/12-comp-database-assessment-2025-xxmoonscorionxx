@@ -36,7 +36,7 @@ function fb_initialise() {
     console.info(fb_gamedb);
 }
 
-function fb_read_sorted() {
+function fb_read_sortedFL() {
     const auth = getAuth();
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -64,23 +64,62 @@ auth.onAuthStateChanged(user => {
             console.log(scores)
 
         });
-        document.getElementById("#1").innerHTML = "#1      " + scores[0].Name + "      Score:" + scores[0].Score;
-        document.getElementById("#2").innerHTML = "#2      " + scores[1].Name + "      Score:" + scores[1].Score;
-        document.getElementById("#3").innerHTML = "#3      " + scores[2].Name + "      Score:" + scores[2].Score;
-        document.getElementById("#4").innerHTML = "#4      " + scores[3].Name + "      Score:" + scores[3].Score;
-        document.getElementById("#5").innerHTML = "#5      " + scores[4].Name + "      Score:" + scores[4].Score;
+        document.getElementById("F#1").innerHTML = "#1      " + scores[0].Name + "      Score:" + scores[0].Score;
+        document.getElementById("F#2").innerHTML = "#2      " + scores[1].Name + "      Score:" + scores[1].Score;
+        document.getElementById("F#3").innerHTML = "#3      " + scores[2].Name + "      Score:" + scores[2].Score;
+        document.getElementById("F#4").innerHTML = "#4      " + scores[3].Name + "      Score:" + scores[3].Score;
+        document.getElementById("F#5").innerHTML = "#5      " + scores[4].Name + "      Score:" + scores[4].Score;
     }).catch((error) => {
         console.log(error)
     });
 
 
 }
+function fb_read_sortedCG() {
+    const auth = getAuth();
+auth.onAuthStateChanged(user => {
+  if (user) {
+    console.log("Signed in as:", user.uid);
+  } else {
+    console.log("Not signed in");
+  }
+});
+    var sortKey = "Score";
+    const dbReference = query(ref(fb_gamedb, "Games/CoinGame/Users"), orderByChild(sortKey), limitToLast(5));
+    get(dbReference).then((snapshot) => {
+        let scores = []
+        snapshot.forEach(function (userScoreSnapshot) {
+            console.log(userScoreSnapshot.val())
+            var fb_data = userScoreSnapshot.val();
+            if (fb_data != null) {
+                //  console.log(fb_data);
+                scores.push(fb_data)
+            } else {
+                console.log("something went wrong")
+            }
 
+            console.log(scores)
+            scores.sort((a, b) => { return b.Score - a.Score }) //Help received for this line https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+            console.log(scores)
+
+        });
+        document.getElementById("C#1").innerHTML = "#1      " + scores[0].Name + "      Score:" + scores[0].Score;
+        document.getElementById("C#2").innerHTML = "#2      " + scores[1].Name + "      Score:" + scores[1].Score;
+        document.getElementById("C#3").innerHTML = "#3      " + scores[2].Name + "      Score:" + scores[2].Score;
+        document.getElementById("C#4").innerHTML = "#4      " + scores[3].Name + "      Score:" + scores[3].Score;
+        document.getElementById("C#5").innerHTML = "#5      " + scores[4].Name + "      Score:" + scores[4].Score;
+    }).catch((error) => {
+        console.log(error)
+    });
+
+
+}
 function sortedRead() {
     const userUID = sessionStorage.getItem("UID");
     fb_initialise();
     console.log("working")
-    fb_read_sorted();
+    fb_read_sortedFL();
+    fb_read_sortedCG();
     const leaderboard = sessionStorage.getItem("data1")
     console.log(leaderboard)
         ;

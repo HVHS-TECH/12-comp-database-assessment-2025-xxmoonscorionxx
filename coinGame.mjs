@@ -6,8 +6,11 @@ const MOVEMENTSPEED = 7;
 const COINSIZE = 10;
 const COINTIMEOUT = 4000;
 
+var once = 0
+var onceRedirect = 0;
 var Score = 0;
 var gameState = "play";
+var UID;
 
 /*******************************************************/
 // setup()
@@ -38,13 +41,32 @@ function draw() {
     
 
     if(gameState == "play") {
+        UID = sessionStorage.getItem("UID");
+		userName = sessionStorage.getItem("userName");
+		if (UID == null) {
+            if(onceRedirect == 0) {
+			window.location.replace("registration/registration.html");
+            console.log("hmmmm")
+            onceRedirect=1
+        }
+		}
+       
         runGame();
+        
     }
     else if(gameState == "lose") {
-
+        if (once == 0 ) {
+            console.log("working again")
+			sessionStorage.setItem("score", Score);
+			fb_writeCoinGame()
+			once = 1;
+		}
+        
     }
 }
+
 function runGame() {
+    
     background('cyan');
 
     if (random(0,1000)<15){
@@ -73,7 +95,11 @@ function lose () {
     textSize(100);
     text("Score: " + Score, 10,200);
 }
-
+function home() {
+	if (kb.pressing('t')) {
+		window.location.replace("index.html");
+	}
+}
 function removeCoin() {
 }
 function displayScore() {

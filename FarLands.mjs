@@ -138,7 +138,8 @@ function playState() {
 		background('#0e001b');
 		loseScreenText();
 		if (once == 0 ) {
-			fb_write()
+			sessionStorage.setItem("score", score);
+			fb_writeFarLands()
 			once = 1;
 		}
 		home();
@@ -355,6 +356,7 @@ function spaceshipCollectCoin(_coin, _spaceship) {
 	console.log("coin collected");
 	score++
 	sessionStorage.setItem("score", score);
+	
 }
 /*****************************************************/
 // spawnCoin()
@@ -453,7 +455,7 @@ function loseScreenText() {
 	text("SCORE: " + score, windowWidth / 2 - 300, 440);
 	textSize(10);
 	text("refresh the page to try again", windowWidth / 2 - 250, 800);
-	text("or press ..r.. to return", windowWidth / 2 - 250, 810 );
+	text("or press ..t.. to return", windowWidth / 2 - 250, 810 );
 }
 
 //******************* */
@@ -522,7 +524,7 @@ button.addEventListener('click', function() {
 
 }
 function home() {
-	if (kb.pressing('r')) {
+	if (kb.pressing('t')) {
 		window.location.replace("index.html");
 	}
 }
