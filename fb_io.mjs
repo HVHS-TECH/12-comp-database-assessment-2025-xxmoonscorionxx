@@ -25,7 +25,8 @@ import { getDatabase, ref, set, get, update, query, orderByChild, limitToFirst }
 // Exporting functions to be used in main.mjs
 /**************************************************************/
 export {
-    fb_initialise, fb_authenticate, fb_start, fb_writeFarLands, fb_writeCoinGame, fb_read_sortedFL, fb_read_sortedCG, fb_updateInformationRegistrationFL, fb_updateInformationRegistrationCG, fb_readAccount
+    fb_initialise, fb_authenticate, fb_start, fb_writeFarLands, fb_writeCoinGame, fb_read_sortedFL, fb_read_sortedCG, fb_updateInformationRegistrationFL, fb_updateInformationRegistrationCG,
+    fb_updateInformationRegistrationAgeFL, fb_writeAuth
 };
 function fb_start() {
     fb_initialise();
@@ -67,23 +68,25 @@ function fb_authenticate() {
         console.log(result.user.photoURL);
         console.log(result.user.email);
         console.log(result.user.displayName);
-        console.log(result.user.displayName);
+        console.log( result.user.uid);
 
         
         userUID = result.user.uid;
         userDisplayName = result.user.displayName;
         userProfilePicture = result.user.photoURL;
+        console.log(userUID)
 
 
 
         //  const userEmail = result.user.email;
 
-        // sessionStorage.setItem("UID", userUID);
+        sessionStorage.setItem("UID", userUID);
         // sessionStorage.setItem("userDisplayName", userDisplayName);
         // sessionStorage.setItem("userProfilePicture", userProfilePicture);
 
 
         console.log(AUTH);
+        fb_writeAuth();
 
 
 
@@ -92,9 +95,9 @@ function fb_authenticate() {
         console.log("error authenticating: " + error);
         // document.getElementById("p_fbAuthenticate").innerHTML = "Failled Authenticating";
     });
+    
 }
 function fb_writeAuth() {
-
     userUID = sessionStorage.getItem("UID");
     console.log(userUID);
     const auth = getAuth();
@@ -107,8 +110,8 @@ function fb_writeAuth() {
     });
     const dbReference = ref(fb_gamedb, "details/users/" + userUID);
 
-    update(dbReference, { }).then(() => {
-        console.log("update successful");
+    update(dbReference, { UID:userUID, userDisplayName:userDisplayName, userProfilePicture:userProfilePicture}).then(() => {
+        console.log("update very successful");
 
 
     }).catch((error) => {
@@ -173,14 +176,6 @@ function fb_writeCoinGame() {
     console.log(score);
     console.log(fb_gamedb);
     console.log(userUID);
-    const auth = getAuth();
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            console.log("Signed in as:", user.uid);
-        } else {
-            console.log("Not signed in");
-        }
-    });
     const dbReference = ref(fb_gamedb, "Games/CoinGame/Users/" + userUID);
 
     update(dbReference, { Score: Number(score)}).then(() => {
@@ -188,6 +183,7 @@ function fb_writeCoinGame() {
 
 
     }).catch((error) => {
+        
         console.log("error  " + error)
     });
 
@@ -277,41 +273,44 @@ function fb_updateInformationRegistrationFL() {
     const name = sessionStorage.getItem("name")
     const dbReference = ref(fb_gamedb, "Games/FarLands/Users/" + userUID);
 
-    update(dbReference, { Name: name,Age: Number(age),}).then(() => {
+    update(dbReference, { Name: name}).then(() => {
         console.log("update successful");
 
 
     }).catch((error) => {
         console.log("error  " + error)
     });
+       
+
+
 }
+function fb_updateInformationRegistrationAgeFL() {
+    const dbReference = ref(fb_gamedb, "details/users/" + userUID);
+    let age = sessionStorage.getItem("age")
+
+
+    update(dbReference, { Age: Number(age) }).then(() => {
+        console.log("update successful2");
+
+
+    }).catch((error) => {
+        console.log("error  " + error)
+    });
+}
+
 function fb_updateInformationRegistrationCG() {
     const age = sessionStorage.getItem("age")
     const name = sessionStorage.getItem("name")
     const dbReference = ref(fb_gamedb, "Games/CoinGame/Users/" + userUID);
 
-    update(dbReference, { Name: name,Age: Number(age),}).then(() => {
+    update(dbReference, { Name: name}).then(() => {
         console.log("update successful");
 
 
     }).catch((error) => {
         console.log("error  " + error)
     });
-}
-function fb_readAccount(){
-    
-    const dbReference = ref(fb_gamedb, "Games/FarLands/Users/" +userUID);
+       
 
-    get(dbReference).then((snapshot) => {
-        var fb_data = snapshot.val();
-        if (fb_data != null) {
-            document.getElementById("p_fbReadRec").innerHTML = "Successful";
-            console.log("Data: " + fb_data.UID);
-        } else {
-            document.getElementById("p_fbReadRec").innerHTML = "No Record Found";
-        }
-    }).catch((error) => {
-        console.log("error:  " + error);
-    });
 
 }
