@@ -2,7 +2,7 @@
 // Import all external constants & functions required
 /**************************************************************/
 // Import all the constants & functions required from fb_io module
-import { fb_start, fb_initialise, fb_authenticate, fb_writeFarLands, fb_writeCoinGame,  fb_read_sortedFL, fb_read_sortedCG, fb_updateInformationRegistrationFL, fb_updateInformationRegistrationCG }
+import { fb_start, fb_initialise, fb_authenticate, fb_writeFarLands, fb_writeCoinGame,  fb_read_sortedFL, fb_read_sortedCG, fb_updateInformationRegistrationFL, fb_updateInformationRegistrationCG, fb_readAccount }
     from './fb_io.mjs';
 
 window.fb_start = fb_start;
@@ -13,6 +13,7 @@ window.fb_read_sorted = fb_read_sortedFL;
 window.fb_read_sorted = fb_read_sortedCG;
 window.fb_updateInformationRegistrationFL = fb_updateInformationRegistrationFL;
 window.fb_updateInformationRegistrationCG = fb_updateInformationRegistrationCG;
+window.fb_readAccount = fb_readAccount;
 //window.fb_initialise = fb_initialise;
 //window.fb_authenticate = fb_authenticate;
 

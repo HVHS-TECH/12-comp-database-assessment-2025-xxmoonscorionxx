@@ -101,7 +101,6 @@ auth.onAuthStateChanged(user => {
             console.log(scores)
             scores.sort((a, b) => { return b.Score - a.Score }) //Help received for this line https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
             console.log(scores)
-
         });
         document.getElementById("C#1").innerHTML = "#1      " + scores[0].Name + "      Score:" + scores[0].Score;
         document.getElementById("C#2").innerHTML = "#2      " + scores[1].Name + "      Score:" + scores[1].Score;

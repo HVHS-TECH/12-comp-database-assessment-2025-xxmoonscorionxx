@@ -28,7 +28,7 @@
 
 
     <form id="RegistationForm">
-      <label for="name">Name:</label>
+      <label for="name">UserName: less than 100 characters</label>
       <input type="text" id="name" name="name" required />
 
       <label for="age">Age 5-100:</label>
@@ -37,7 +37,7 @@
 
     
 
-    <button onclick="saveInfo();fb_updateInformationRegistrationFL();fb_updateInformationRegistrationCG();redirectHub(); ">Submit</button>
+    <button onclick="saveInfo();fb_updateInformationRegistrationFL();fb_updateInformationRegistrationCG();fb_readAccount();redirectHub(); ">Submit</button>
 
     <div id="emailOutput" style="margin-top: 2rem;"</div>
 
