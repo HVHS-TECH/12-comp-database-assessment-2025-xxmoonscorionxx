@@ -176,6 +176,14 @@ function fb_writeCoinGame() {
     console.log(score);
     console.log(fb_gamedb);
     console.log(userUID);
+    const auth = getAuth();
+    auth.onAuthStateChanged(user => {
+        if (user) {
+            console.log("Signed in as:", user.uid);
+        } else {
+            console.log("Not signed in");
+        }
+    });
     const dbReference = ref(fb_gamedb, "Games/CoinGame/Users/" + userUID);
 
     update(dbReference, { Score: Number(score)}).then(() => {
@@ -183,10 +191,8 @@ function fb_writeCoinGame() {
 
 
     }).catch((error) => {
-        
         console.log("error  " + error)
     });
-
 
   //  const dbReference = ref(fb_gamedb, ('Games/FarLands/Users/' + userUID));
 
